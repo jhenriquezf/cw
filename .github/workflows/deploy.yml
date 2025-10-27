@@ -25,7 +25,7 @@ jobs:
       uses: docker/build-push-action@v4
       with:
         push: true
-        tags: tu-usuario/tu-proyecto:latest
+        tags: jhenriquezf/core:latest
     
     - name: Deploy to GCP VM
       uses: appleboy/ssh-action@master

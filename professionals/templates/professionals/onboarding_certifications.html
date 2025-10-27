@@ -1,0 +1,144 @@
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+<head>
+  <meta charset="utf-8"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+  <link rel="stylesheet" as="style" href="https://fonts.googleapis.com/css2?display=swap&family=Manrope:wght@400;500;700;800" onload="this.rel='stylesheet'">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script>
+    tailwind.config = { darkMode: "class", theme: { extend: {
+      colors: { primary: "#1dc962", "background-light": "#f6f8f7", "background-dark": "#112117" },
+      fontFamily: { display: ["Manrope"] },
+      borderRadius: { DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px" }
+    } } };
+  </script>
+  <title>{% trans "Conecta Wellness - Onboarding" %}</title>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-800 dark:text-slate-200">
+  <div class="flex flex-col min-h-screen">
+    <header class="sticky top-0 z-20 w-full bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm border-b border-primary/20 dark:border-primary/30">
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
+          <div class="flex items-center gap-3 text-slate-900 dark:text-slate-50">
+            <svg class="h-8 w-8 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 48 48"><path d="M39.5563 34.1455V13.8546C39.5563 15.708 36.8773 17.3437 32.7927 18.3189C30.2914 18.916 27.263 19.2655 24 19.2655C20.737 19.2655 17.7086 18.916 15.2073 18.3189C11.1227 17.3437 8.44365 15.708 8.44365 13.8546V34.1455C8.44365 35.9988 11.1227 37.6346 15.2073 38.6098C17.7086 39.2069 20.737 39.5564 24 39.5564C27.263 39.5564 30.2914 39.2069 32.7927 38.6098C36.8773 37.6346 39.5563 35.9988 39.5563 34.1455Z" fill="currentColor"></path></svg>
+            <h2 class="text-lg font-bold">{% trans "Conecta Wellness" %}</h2>
+          </div>
+
+          <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
+            <a href="#" class="hover:text-primary transition-colors">{% trans "Home" %}</a>
+            <a href="#" class="hover:text-primary transition-colors">{% trans "Professionals" %}</a>
+            <a href="#" class="hover:text-primary transition-colors">{% trans "Businesses" %}</a>
+          </nav>
+
+          <div class="flex items-center gap-3">
+            {% include "professionals/includes/lang_switcher.html" %}
+            <a class="flex items-center justify-center rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold hover:opacity-90 transition-opacity">{% trans "Get Started" %}</a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="w-full max-w-2xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col gap-8">
+        <div>
+          <div class="flex items-center justify-between mb-2">
+            <p class="text-sm font-medium text-black dark:text-white">{% trans "20% complete" %}</p>
+          </div>
+          <div class="w-full bg-primary/20 dark:bg-primary/30 rounded-full h-2">
+            <div class="bg-primary h-2 rounded-full" style="width: 20%"></div>
+          </div>
+        </div>
+
+        <div class="space-y-2">
+          <h1 class="text-3xl font-bold tracking-tight text-black dark:text-white">{% trans "Add your certifications and specializations" %}</h1>
+          <p class="text-black/70 dark:text-white/70">
+            {% trans "Showcase your expertise by adding certifications and specializations. This helps clients find professionals with the right qualifications." %}
+          </p>
+        </div>
+
+        <form method="post" enctype="multipart/form-data" class="space-y-6">
+          {% csrf_token %}
+          <div class="grid grid-cols-1 gap-6">
+            <label class="flex flex-col gap-2">
+              <span class="text-sm font-medium">{% trans "Certification or Specialization" %}</span>
+              <input type="text" name="name" id="id_name"
+                     placeholder="{% trans 'e.g. TRX Certification Level 2' %}"
+                     class="form-input w-full rounded-lg border border-primary/30 bg-background-light dark:bg-background-dark focus:ring-primary focus:border-primary placeholder:text-black/50 dark:placeholder:text-white/50" required>
+            </label>
+
+            <label class="flex flex-col gap-2">
+              <span class="text-sm font-medium">{% trans "Issuing Organization" %}</span>
+              <input type="text" name="institution" id="id_institution"
+                     placeholder="{% trans 'e.g. Fitness Training Institute' %}"
+                     class="form-input w-full rounded-lg border border-primary/30 bg-background-light dark:bg-background-dark focus:ring-primary focus:border-primary placeholder:text-black/50 dark:placeholder:text-white/50" required>
+            </label>
+
+            <label class="flex flex-col gap-2">
+              <span class="text-sm font-medium">{% trans "Year of Completion" %}</span>
+              <input type="number" name="year" id="id_year" min="1950" max="2100" placeholder="{% trans 'e.g. 2022' %}"
+                     class="form-input w-full rounded-lg border border-primary/30 bg-background-light dark:bg-background-dark focus:ring-primary focus:border-primary placeholder:text-black/50 dark:placeholder:text-white/50" required>
+            </label>
+
+            <label class="flex flex-col gap-2">
+              <span class="text-sm font-medium">{% trans "Certificate (PDF or image)" %}</span>
+              <input type="file" name="document" id="id_document" accept="application/pdf,image/*"
+                     class="form-input w-full rounded-lg border border-primary/30 bg-background-light dark:bg-background-dark focus:ring-primary focus:border-primary" required>
+            </label>
+          </div>
+
+          <div class="flex justify-end">
+            <button type="submit"
+                    class="flex items-center justify-center rounded-lg h-10 px-5 bg-primary text-white text-sm font-bold hover:opacity-90 transition-opacity">
+              {% trans "Add Certification" %}
+            </button>
+          </div>
+        </form>
+
+        <div class="space-y-4">
+          <h3 class="text-xl font-bold tracking-tight">{% trans "Added Certifications" %}</h3>
+          <div class="space-y-3">
+            {% for c in certifications %}
+              <div class="flex items-center justify-between p-4 rounded-lg bg-primary/10 dark:bg-primary/20">
+                <div class="flex flex-col">
+                  <p class="font-medium">{{ c.name }}</p>
+                  <p class="text-sm text-black/60 dark:text-white/60">
+                    {{ c.institution }} • {{ c.year }} •
+                    {% if c.verification_status == 'verified' %}
+                      <span class="font-semibold text-green-600">{% trans "Verified" %}</span>
+                    {% elif c.verification_status == 'rejected' %}
+                      <span class="font-semibold text-red-600">{% trans "Rejected" %}</span>
+                    {% else %}
+                      <span class="font-semibold">{% trans "Pending review" %}</span>
+                    {% endif %}
+                  </p>
+                </div>
+                <form method="post" class="ml-4">
+                  {% csrf_token %}
+                  <input type="hidden" name="delete_id" value="{{ c.id }}">
+                  <button type="submit" class="text-black/60 dark:text-white/60 hover:text-black dark:hover:text-white transition-colors" title="{% trans 'Remove' %}">
+                    <span class="material-symbols-outlined">close</span>
+                  </button>
+                </form>
+              </div>
+            {% empty %}
+              <p class="text-sm text-black/60 dark:text-white/60">{% trans "No certifications added yet." %}</p>
+            {% endfor %}
+          </div>
+        </div>
+
+        <div class="flex justify-between pt-6 border-t border-primary/20 dark:border-primary/30">
+          <a href="#" class="flex items-center justify-center rounded-lg h-10 px-5 text-sm font-bold bg-primary/20 dark:bg-primary/30 hover:bg-primary/30 dark:hover:bg-primary/40 transition-colors">
+            {% trans "Back" %}
+          </a>
+          <a href="#" class="flex items-center justify-center rounded-lg h-10 px-5 bg-primary text-white text-sm font-bold hover:opacity-90 transition-opacity">
+            {% trans "Next" %}
+          </a>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

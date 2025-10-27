@@ -1,0 +1,271 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: conecta-wellness\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-10-26 00:00+0000\n"
+"PO-Revision-Date: 2025-10-26 00:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: Portuguese\n"
+"Language: pt\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: templates
+msgid "Language"
+msgstr "Idioma"
+
+msgid "Conecta Wellness"
+msgstr "Conecta Wellness"
+
+msgid "Conecta Wellness - Find Your Professional"
+msgstr "Conecta Wellness - Encontre seu profissional"
+
+msgid "Conecta Wellness - Professional Profile"
+msgstr "Conecta Wellness - Perfil do profissional"
+
+msgid "Conecta Wellness - Onboarding"
+msgstr "Conecta Wellness - Onboarding"
+
+msgid "Home"
+msgstr "Início"
+
+msgid "Explore"
+msgstr "Explorar"
+
+msgid "For Professionals"
+msgstr "Para profissionais"
+
+msgid "Book a Session"
+msgstr "Agendar sessão"
+
+msgid "Find Your Wellness Professional"
+msgstr "Encontre seu profissional de bem-estar"
+
+msgid "Search for professionals, services, or specialties in your area."
+msgstr "Busque profissionais, serviços ou especialidades na sua região."
+
+msgid "Search for professionals, services, or specialties"
+msgstr "Busque profissionais, serviços ou especialidades"
+
+msgid "Modality"
+msgstr "Modalidade"
+
+msgid "All"
+msgstr "Todas"
+
+msgid "Session Type"
+msgstr "Tipo de sessão"
+
+msgid "User Rating"
+msgstr "Avaliação dos usuários"
+
+msgid "Apply filters"
+msgstr "Aplicar filtros"
+
+msgid "%(total)s professionals found"
+msgstr "%(total)s profissionais encontrados"
+
+msgid "for “%(query)s”"
+msgstr "para “%(query)s”"
+
+msgid "Prev"
+msgstr "Anterior"
+
+msgid "Next"
+msgstr "Próxima"
+
+msgid "Page %(page)s of %(pages)s"
+msgstr "Página %(page)s de %(pages)s"
+
+msgid "No professionals found for the selected filters."
+msgstr "Nenhum profissional encontrado com os filtros selecionados."
+
+msgid "Browse by Category"
+msgstr "Explorar por categoria"
+
+msgid "Yoga"
+msgstr "Ioga"
+
+msgid "Fitness"
+msgstr "Fitness"
+
+msgid "Nutrition"
+msgstr "Nutrição"
+
+msgid "Mental Health"
+msgstr "Saúde mental"
+
+msgid "Holistic Therapies"
+msgstr "Terapias holísticas"
+
+msgid "Other"
+msgstr "Outros"
+
+msgid "Professional"
+msgstr "Profissional"
+
+# Onboarding
+msgid "Get Started"
+msgstr "Começar"
+
+msgid "20% complete"
+msgstr "20% concluído"
+
+msgid "Add your certifications and specializations"
+msgstr "Adicione suas certificações e especializações"
+
+msgid "Showcase your expertise by adding certifications and specializations. This helps clients find professionals with the right qualifications."
+msgstr "Mostre sua experiência adicionando certificações e especializações. Isso ajuda os clientes a encontrarem profissionais com as qualificações certas."
+
+msgid "Certification or Specialization"
+msgstr "Certificação ou especialização"
+
+msgid "Issuing Organization"
+msgstr "Instituição emissora"
+
+msgid "Year of Completion"
+msgstr "Ano de conclusão"
+
+msgid "e.g. TRX Certification Level 2"
+msgstr "ex.: Certificação TRX Nível 2"
+
+msgid "e.g. Fitness Training Institute"
+msgstr "ex.: Fitness Training Institute"
+
+msgid "e.g. 2022"
+msgstr "ex.: 2022"
+
+msgid "Certificate (PDF or image)"
+msgstr "Certificado (PDF ou imagem)"
+
+msgid "Add Certification"
+msgstr "Adicionar certificação"
+
+msgid "Added Certifications"
+msgstr "Certificações adicionadas"
+
+msgid "Verified"
+msgstr "Verificada"
+
+msgid "Rejected"
+msgstr "Rejeitada"
+
+msgid "Pending review"
+msgstr "Pendente de revisão"
+
+msgid "Remove"
+msgstr "Remover"
+
+msgid "No certifications added yet."
+msgstr "Ainda não há certificações adicionadas."
+
+msgid "Back"
+msgstr "Voltar"
+
+msgid "Next"
+msgstr "Avançar"
+
+# Profile
+msgid "Specializations:"
+msgstr "Especializações:"
+
+msgid "About"
+msgstr "Sobre"
+
+msgid "Certifications"
+msgstr "Certificações"
+
+msgid "Gallery"
+msgstr "Galeria"
+
+msgid "About %(name)s"
+msgstr "Sobre %(name)s"
+
+msgid "This professional hasn't added a bio yet."
+msgstr "Este profissional ainda não adicionou uma biografia."
+
+msgid "No verified certifications yet."
+msgstr "Ainda não há certificações verificadas."
+
+msgid "No images uploaded."
+msgstr "Nenhuma imagem enviada."
+
+# Welcome / Landing
+msgid "Find Your Path to Wellness"
+msgstr "Encontre seu caminho para o bem-estar"
+
+msgid "Connect with top health, fitness, and holistic wellness professionals in Chile and Latin America. Start your journey to a healthier you today."
+msgstr "Conecte-se com os melhores profissionais de saúde, fitness e bem-estar holístico no Chile e na América Latina. Comece hoje sua jornada para uma vida mais saudável."
+
+msgid "Search Professionals"
+msgstr "Buscar profissionais"
+
+msgid "Learn More"
+msgstr "Saiba mais"
+
+msgid "Why Choose Conecta Wellness?"
+msgstr "Por que escolher a Conecta Wellness?"
+
+msgid "We connect you with the best professionals, offering personalized wellness solutions tailored to your needs."
+msgstr "Conectamos você aos melhores profissionais, oferecendo soluções de bem-estar personalizadas às suas necessidades."
+
+msgid "Verified Professionals"
+msgstr "Profissionais verificados"
+
+msgid "All professionals are thoroughly vetted to ensure quality and reliability."
+msgstr "Todos os profissionais são rigorosamente verificados para garantir qualidade e confiabilidade."
+
+msgid "Wide Range of Services"
+msgstr "Ampla variedade de serviços"
+
+msgid "From fitness training to holistic therapies, find the services that suit you."
+msgstr "De treinamento físico a terapias holísticas, encontre os serviços ideais para você."
+
+msgid "Flexible Scheduling"
+msgstr "Agendamento flexível"
+
+msgid "Book sessions at your convenience with flexible scheduling options."
+msgstr "Agende sessões quando quiser, com opções de horário flexíveis."
+
+msgid "Explore Our Services"
+msgstr "Explore nossos serviços"
+
+msgid "About Us"
+msgstr "Sobre nós"
+
+msgid "Contact"
+msgstr "Contato"
+
+msgid "Privacy Policy"
+msgstr "Política de privacidade"
+
+msgid "Terms of Service"
+msgstr "Termos de serviço"
+
+msgid "All rights reserved."
+msgstr "Todos os direitos reservados."
+
+# Login
+msgid "Log in"
+msgstr "Entrar"
+
+msgid "Invalid username or password."
+msgstr "Nome de usuário ou senha inválidos."
+
+msgid "Your account doesn't have access to this page."
+msgstr "Sua conta não tem acesso a esta página."
+
+msgid "Email or username"
+msgstr "E-mail ou nome de usuário"
+
+msgid "Password"
+msgstr "Senha"
+
+msgid "Forgot your password?"
+msgstr "Esqueceu sua senha?"
+
+# Misc
+msgid "reviews"
+msgstr "avaliações"

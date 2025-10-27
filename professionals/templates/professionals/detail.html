@@ -1,0 +1,152 @@
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+{% trans "Pro" as PRO_WORD %}
+{% trans "the professional" as THE_PROFESSIONAL %}
+{% trans "This professional hasn't added a bio yet." as NO_BIO %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+<head>
+  <meta charset="utf-8"/>
+  <title>{% trans "Conecta Wellness - Professional Profile" %}</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+  <script>
+    tailwind.config = { darkMode:'class', theme: { extend: {
+      colors:{ primary:'#1dc962','background-light':'#f6f8f7','background-dark':'#112117'},
+      fontFamily:{ display:['Manrope'] },
+      borderRadius:{ DEFAULT:'0.25rem', lg:'0.5rem', xl:'0.75rem', full:'9999px' },
+    } } };
+  </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-800 dark:text-slate-200">
+<div class="flex min-h-screen w-full flex-col">
+
+  <header class="sticky top-0 z-10 border-b border-primary/20 bg-background-light/80 px-4 backdrop-blur-sm dark:border-primary/30 dark:bg-background-dark/80 sm:px-6 lg:px-8">
+    <div class="mx-auto flex max-w-7xl items-center justify-between py-3">
+      <div class="flex items-center gap-6">
+        <a class="flex items-center gap-2" href="{% url 'professionals:search' %}">
+          <svg class="h-8 w-8 text-primary" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M39.5563 34.1455V13.8546C39.5563 15.708 36.8773 17.3437 32.7927 18.3189C30.2914 18.916 27.263 19.2655 24 19.2655C20.737 19.2655 17.7086 18.916 15.2073 18.3189C11.1227 17.3437 8.44365 15.708 8.44365 13.8546V34.1455C8.44365 35.9988 11.1227 37.6346 15.2073 38.6098C17.7086 39.2069 20.737 39.5564 24 39.5564C27.263 39.5564 30.2914 39.2069 32.7927 38.6098C36.8773 37.6346 39.5563 35.9988 39.5563 34.1455Z" fill="currentColor"></path></svg>
+          <h1 class="text-lg font-bold text-slate-900 dark:text-white">{% trans "Conecta Wellness" %}</h1>
+        </a>
+      </div>
+      <nav class="hidden items-center gap-6 md:flex">
+        <a class="text-sm font-medium text-slate-600 hover:text-primary dark:text-slate-300 dark:hover:text-primary" href="{% url 'professionals:search' %}">{% trans "Explore" %}</a>
+      </nav>
+      <div class="flex items-center gap-4">
+        {% include "professionals/includes/lang_switcher.html" %}
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-1">
+    <div class="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
+      <div class="flex flex-col gap-8">
+
+        <div class="rounded-xl bg-white p-6 shadow-sm dark:bg-background-dark/50">
+          <div class="flex flex-col items-start gap-6 md:flex-row">
+            <div class="h-32 w-32 flex-shrink-0 rounded-full bg-cover bg-center"
+                 style='background-image: url("{% if professional.photo %}{{ professional.photo.url }}{% else %}https://placehold.co/256x256?text={{ professional.user.first_name|default:PRO_WORD }}{% endif %}");'></div>
+
+            <div class="flex-grow">
+              <h2 class="text-2xl font-bold text-slate-900 dark:text-white">
+                {{ professional.user.get_full_name|default:professional.username_slug }}
+              </h2>
+              <p class="text-md mt-1 text-slate-600 dark:text-slate-400">
+                {% if professional.primary_specialty %}{{ professional.get_primary_specialty_display }}{% endif %}
+                {% if professional.comuna %} | {{ professional.get_comuna_display }}{% endif %}
+              </p>
+
+              {% if professional.average_rating %}
+                {% if professional.total_reviews %}
+                  <p class="mt-1 text-sm text-slate-600 dark:text-slate-400">
+                    {% blocktrans with r=professional.average_rating c=professional.total_reviews count reviews_count=professional.total_reviews %}
+                      ⭐ {{ r }} ({{ c }} review)
+                    {% plural %}
+                      ⭐ {{ r }} ({{ c }} reviews)
+                    {% endblocktrans %}
+                  </p>
+                {% else %}
+                  <p class="mt-1 text-sm text-slate-600 dark:text-slate-400">⭐ {{ professional.average_rating }}</p>
+                {% endif %}
+              {% endif %}
+
+              {% comment %}
+              {% if specializations %}
+                <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">
+                  <strong>{% trans "Specializations:" %}</strong> {{ specializations }}
+                </p>
+              {% endif %}
+              {% endcomment %}
+            </div>
+
+            <a href="#"
+               class="w-full shrink-0 rounded-lg bg-primary px-5 py-3 text-sm font-bold text-white shadow-sm transition-transform hover:scale-105 md:w-auto">
+              {% trans "Book a Session" %}
+            </a>
+          </div>
+        </div>
+
+        <div class="rounded-xl bg-white p-6 shadow-sm dark:bg-background-dark/50">
+          <div class="border-b border-slate-200 dark:border-slate-700">
+            <nav class="-mb-px flex space-x-6">
+              <a class="shrink-0 border-b-2 border-primary px-1 pb-4 text-sm font-semibold text-primary" href="#about">{% trans "About" %}</a>
+              <a class="shrink-0 border-b-2 border-transparent px-1 pb-4 text-sm font-medium text-slate-500 hover:border-slate-300 hover:text-slate-700 dark:text-slate-400 dark:hover:border-slate-600 dark:hover:text-slate-300" href="#certs">{% trans "Certifications" %}</a>
+              <a class="shrink-0 border-b-2 border-transparent px-1 pb-4 text-sm font-medium text-slate-500 hover:border-slate-300 hover:text-slate-700 dark:text-slate-400 dark:hover:border-slate-600 dark:hover:text-slate-300" href="#gallery">{% trans "Gallery" %}</a>
+            </nav>
+          </div>
+
+          <div class="py-6 space-y-10">
+            <section id="about" class="space-y-2">
+              <h3 class="text-xl font-bold text-slate-900 dark:text-white">
+                {% blocktrans with name=professional.user.first_name|default:THE_PROFESSIONAL %}About {{ name }}{% endblocktrans %}
+              </h3>
+              <p class="mt-2 leading-relaxed text-slate-600 dark:text-slate-300">
+                {{ professional.bio|default:NO_BIO }}
+              </p>
+            </section>
+
+            <section id="certs">
+              <h3 class="text-xl font-bold text-slate-900 dark:text-white">{% trans "Certifications" %}</h3>
+              {% if certifications %}
+                <ul class="mt-4 space-y-3">
+                  {% for c in certifications %}
+                    <li class="flex items-center gap-3 rounded-lg bg-background-light p-3 dark:bg-background-dark">
+                      <span class="material-symbols-outlined text-primary">workspace_premium</span>
+                      <span class="flex-1 text-sm font-medium text-slate-700 dark:text-slate-300">
+                        {{ c.name }}{% if c.institution %} — {{ c.institution }}{% endif %}{% if c.year %} ({{ c.year }}){% endif %}
+                      </span>
+                    </li>
+                  {% endfor %}
+                </ul>
+              {% else %}
+                <p class="mt-3 text-sm text-slate-600 dark:text-slate-400">{% trans "No verified certifications yet." %}</p>
+              {% endif %}
+            </section>
+
+            <section id="gallery">
+              <h3 class="text-xl font-bold text-slate-900 dark:text-white">{% trans "Gallery" %}</h3>
+              {% if gallery_images %}
+                <div class="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3">
+                  {% for img in gallery_images %}
+                    <div class="aspect-square w-full overflow-hidden rounded-xl">
+                      <div class="h-full w-full bg-cover bg-center transition-transform duration-300 hover:scale-110" style='background-image: url("{{ img }}")'></div>
+                    </div>
+                  {% endfor %}
+                </div>
+              {% else %}
+                <p class="mt-3 text-sm text-slate-600 dark:text-slate-400">{% trans "No images uploaded." %}</p>
+              {% endif %}
+            </section>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+</div>
+</body>
+</html>

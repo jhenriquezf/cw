@@ -1,0 +1,158 @@
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+<head>
+  <meta charset="utf-8"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin/>
+  <link as="style" href="https://fonts.googleapis.com/css2?display=swap&family=Manrope:wght@400;500;700;800&family=Noto+Sans:wght@400;500;700;900" onload="this.rel='stylesheet'" rel="stylesheet"/>
+  <title>{% trans "Conecta Wellness - Results" %}</title>
+  <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64,">
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: { primary:"#1dc962","background-light":"#f6f8f7","background-dark":"#112117" },
+          fontFamily: { display:["Manrope"] },
+          borderRadius: { DEFAULT:"0.25rem", lg:"0.5rem", xl:"0.75rem", full:"9999px" },
+        }
+      }
+    };
+  </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-gray-200">
+<div class="flex min-h-screen w-full flex-col">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-20 border-b border-primary/20 bg-background-light bg-opacity-80 backdrop-blur-sm dark:border-primary/30 dark:bg-background-dark/80">
+    <div class="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center gap-8">
+        <a class="flex items-center gap-3 py-4 text-gray-900 dark:text-white" href="{% url 'professionals:search' %}">
+          <svg class="h-8 w-8 text-primary" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M39.5563 34.1455V13.8546C39.5563 15.708 36.8773 17.3437 32.7927 18.3189C30.2914 18.916 27.263 19.2655 24 19.2655C20.737 19.2655 17.7086 18.916 15.2073 18.3189C11.1227 17.3437 8.44365 15.708 8.44365 13.8546V34.1455C8.44365 35.9988 11.1227 37.6346 15.2073 38.6098C17.7086 39.2069 20.737 39.5564 24 39.5564C27.263 39.5564 30.2914 39.2069 32.7927 38.6098C36.8773 37.6346 39.5563 35.9988 39.5563 34.1455Z" fill="currentColor"></path></svg>
+          <h1 class="text-xl font-bold">Conecta Wellness</h1>
+        </a>
+        <nav class="hidden items-center gap-8 lg:flex">
+          <a class="text-sm font-medium text-gray-600 hover:text-primary dark:text-gray-300 dark:hover:text-primary" href="#">{% trans "Explore" %}</a>
+          <a class="text-sm font-medium text-gray-600 hover:text-primary dark:text-gray-300 dark:hover:text-primary" href="#">{% trans "For Professionals" %}</a>
+          <a class="text-sm font-medium text-gray-600 hover:text-primary dark:text-gray-300 dark:hover:text-primary" href="#">{% trans "Resources" %}</a>
+        </nav>
+      </div>
+      <div class="flex items-center gap-4">
+        {% include "professionals/includes/lang_switcher.html" %}
+        <a href="#" class="rounded-lg bg-primary px-4 py-2 text-sm font-bold text-white shadow-sm transition-all hover:bg-primary/90">{% trans "Book a Session" %}</a>
+        <button class="rounded-full" title="{% trans 'Account' %}">
+          <img alt="User Avatar" class="h-10 w-10 rounded-full object-cover" src="https://placehold.co/80x80?text=U"/>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main class="mx-auto w-full max-w-7xl flex-1 px-4 py-8 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-3xl">
+
+      <!-- Search box -->
+      <form method="get" action="{% url 'professionals:search' %}" class="relative mb-6">
+        <span class="material-symbols-outlined pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500"> search </span>
+        <input
+          class="w-full rounded-lg border-primary/20 bg-background-light py-3 pl-12 pr-12 text-gray-900 ring-1 ring-inset ring-primary/20 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary dark:border-primary/30 dark:bg-background-dark dark:text-gray-100 dark:ring-primary/30 dark:placeholder:text-gray-500 dark:focus:ring-primary"
+          type="text" name="q" value="{{ search_query|default:'' }}"
+          placeholder="{% trans 'Search for a professional or specialty' %}"
+        />
+        {% if search_query %}
+          <a href="{% url 'professionals:search' %}" class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400" title="{% trans 'Clear' %}">
+            <span class="material-symbols-outlined"> close </span>
+          </a>
+        {% endif %}
+      </form>
+
+      <!-- Popular pills (opcional) -->
+      {% if popular_terms %}
+        <div class="mb-8 flex flex-wrap items-center gap-3">
+          <span class="text-sm font-medium text-gray-700 dark:text-gray-300">{% trans "Popular:" %}</span>
+          {% for label in popular_terms %}
+            <a href="{% url 'professionals:search' %}?q={{ label|urlencode }}"
+               class="rounded-full bg-primary/20 px-4 py-1.5 text-sm font-medium text-gray-800 transition-colors hover:bg-primary/30 dark:bg-primary/30 dark:text-gray-200 dark:hover:bg-primary/40">
+              {{ label }}
+            </a>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      <!-- Title -->
+      <h2 class="mb-6 text-2xl font-bold text-gray-900 dark:text-white">
+        {% if search_query %}
+          {% blocktrans with q=search_query %}Results for "{{ q }}"{% endblocktrans %}
+        {% else %}
+          {% trans "Results" %}
+        {% endif %}
+      </h2>
+
+      <!-- Results list -->
+      <div class="space-y-6">
+        {% if professionals %}
+          {% for p in professionals %}
+            <div class="flex flex-col gap-6 overflow-hidden rounded-lg border border-primary/20 bg-background-light p-6 transition-shadow hover:shadow-lg dark:border-primary/30 dark:bg-background-dark/50 sm:flex-row sm:items-center">
+              <div class="h-48 w-full flex-shrink-0 rounded-lg bg-cover bg-center sm:h-32 sm:w-32"
+                   style='background-image: url("{% if p.photo %}{{ p.photo.url }}{% else %}https://placehold.co/300x300?text={{ p.user.first_name|default:"Pro"|urlencode }}{% endif %}")'></div>
+              <div class="flex-grow">
+                <h3 class="text-lg font-bold text-gray-900 dark:text-white">{{ p.user.get_full_name|default:p.username_slug }}</h3>
+
+                <div class="mt-1 flex items-center gap-2 text-sm text-primary">
+                  <span>{{ p.get_primary_specialty_display|default:_("Professional") }}</span>
+                  {% if p.is_verified %}
+                    <span class="material-symbols-outlined text-base"> verified </span>
+                    <span class="text-gray-500 dark:text-gray-400">{% trans "Verified Profile" %}</span>
+                  {% endif %}
+                </div>
+
+                {% if p.short_bio %}
+                  <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">{{ p.short_bio }}</p>
+                {% endif %}
+
+                <a href="{% url 'professionals:detail' p.username_slug %}"
+                   class="mt-4 inline-flex rounded-lg border border-primary/40 bg-transparent px-4 py-2 text-sm font-bold text-primary transition-all hover:bg-primary/10 dark:border-primary/60 dark:hover:bg-primary/20">
+                  {% trans "View Profile" %}
+                </a>
+              </div>
+            </div>
+          {% endfor %}
+        {% else %}
+          <div class="rounded-lg border border-primary/20 bg-background-light p-6 dark:border-primary/30 dark:bg-background-dark/50">
+            <p class="text-gray-600 dark:text-gray-400">{% trans "No professionals found for the selected criteria." %}</p>
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- Pagination -->
+      {% if page_obj %}
+        <nav aria-label="Pagination" class="mt-10 flex items-center justify-center gap-2">
+          {% if page_obj.has_previous %}
+            <a class="inline-flex h-10 w-10 items-center justify-center rounded-lg text-gray-500 hover:bg-primary/10 hover:text-primary dark:text-gray-400 dark:hover:bg-primary/20 dark:hover:text-primary"
+               href="?q={{ search_query|urlencode }}&page={{ page_obj.previous_page_number }}">
+              <span class="sr-only">{% trans "Previous" %}</span>
+              <span class="material-symbols-outlined"> chevron_left </span>
+            </a>
+          {% endif %}
+
+          <span aria-current="page" class="inline-flex h-10 items-center justify-center rounded-lg bg-primary px-3 text-sm font-bold text-white">
+            {% blocktrans with page=page_obj.number pages=page_obj.paginator.num_pages %}Page {{ page }} of {{ pages }}{% endblocktrans %}
+          </span>
+
+          {% if page_obj.has_next %}
+            <a class="inline-flex h-10 w-10 items-center justify-center rounded-lg text-gray-500 hover:bg-primary/10 hover:text-primary dark:text-gray-400 dark:hover:bg-primary/20 dark:hover:text-primary"
+               href="?q={{ search_query|urlencode }}&page={{ page_obj.next_page_number }}">
+              <span class="sr-only">{% trans "Next" %}</span>
+              <span class="material-symbols-outlined"> chevron_right </span>
+            </a>
+          {% endif %}
+        </nav>
+      {% endif %}
+    </div>
+  </main>
+</div>
+</body>
+</html>

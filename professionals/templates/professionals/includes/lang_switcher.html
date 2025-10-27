@@ -1,0 +1,19 @@
+{% load i18n %}
+<form action="{% url 'set_language' %}" method="post" class="inline-flex items-center gap-2">
+  {% csrf_token %}
+  <input type="hidden" name="next" value="{{ request.get_full_path|default:request.path|default:'/' }}">
+  <label for="lang" class="sr-only">{% trans "Language" %}</label>
+  <select id="lang" name="language"
+          class="rounded-lg border border-primary/30 bg-background-light dark:bg-background-dark text-sm py-2 px-3 focus:outline-none focus:ring-2 focus:ring-primary"
+          onchange="this.form.submit()">
+    {% get_current_language as CURRENT_LANG %}
+    {% get_available_languages as LANGS %}
+    {% for code,name in LANGS %}
+      {% if code|slice:":2" == 'en' or code|slice:":2" == 'es' or code|slice:":2" == 'pt' %}
+        <option value="{{ code }}" {% if code == CURRENT_LANG %}selected{% endif %}>
+          {% if code|slice:":2" == 'es' %}Español{% elif code|slice:":2" == 'pt' %}Português{% else %}English{% endif %}
+        </option>
+      {% endif %}
+    {% endfor %}
+  </select>
+</form>

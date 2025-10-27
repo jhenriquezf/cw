@@ -1,0 +1,107 @@
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>{% trans "Conecta Wellness - Sign Up" %}</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;display=swap" rel="stylesheet"/>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: { "primary": "#1dc962", "background-light": "#f6f8f7", "background-dark": "#112117" },
+          fontFamily: { "display": ["Manrope"] },
+          borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+        },
+      },
+    }
+  </script>
+  <style>
+    .form-input:focus { --tw-ring-color: #1dc962; --tw-border-opacity: 1; border-color: #1dc962; }
+    .form-input {
+        appearance: none; position: relative; display: block; width: 100%;
+        padding: 0.75rem; margin-bottom: 0.5rem; border-width: 1px;
+        --tw-border-opacity: 1; border-color: rgb(203 213 225 / var(--tw-border-opacity));
+        background-color: rgb(246 248 247 / var(--tw-bg-opacity));
+        border-radius: 0.5rem;
+    }
+    .dark .form-input {
+        --tw-border-opacity: 1; border-color: rgb(51 65 85 / var(--tw-border-opacity));
+        --tw-bg-opacity: 1; background-color: rgb(17 33 23 / var(--tw-bg-opacity));
+    }
+  </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-800 dark:text-slate-200">
+  <div class="flex flex-col min-h-screen">
+    <header class="w-full">
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center py-6">
+          <a class="flex items-center gap-3" href="{% url 'professionals:home' %}">
+            <svg class="h-8 w-8 text-primary" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+              <path d="M39.5563 34.1455V13.8546C39.5563 15.708 36.8773 17.3437 32.7927 18.3189C30.2914 18.916 27.263 19.2655 24 19.2655C20.737 19.2655 17.7086 18.916 15.2073 18.3189C11.1227 17.3437 8.44365 15.708 8.44365 13.8546V34.1455C8.44365 35.9988 11.1227 37.6346 15.2073 38.6098C17.7086 39.2069 20.737 39.5564 24 39.5564C27.263 39.5564 30.2914 39.2069 32.7927 38.6098C36.8773 37.6346 39.5563 35.9988 39.5563 34.1455Z" fill="currentColor"></path>
+            </svg>
+            <span class="text-xl font-bold text-slate-900 dark:text-white">Conecta Wellness</span>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <main class="flex-grow flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div class="w-full max-w-md space-y-8">
+        <div>
+          <h2 class="mt-6 text-center text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
+            {% trans "Create Your Account" %}
+          </h2>
+          <p class="mt-2 text-center text-sm text-slate-600 dark:text-slate-400">
+            {% trans "Join our community and start your wellness journey." %}
+          </p>
+        </div>
+
+        <form action="{% url 'professionals:signup' %}" method="POST">
+          {% csrf_token %}
+          
+          {% for field in form %}
+            <div>
+              <label for="{{ field.id_for_label }}" class="sr-only">{{ field.label }}</label>
+              {{ field.as_widget.input_type }}
+              <input type="{{ field.field.widget.input_type }}" name="{{ field.name }}" id="{{ field.id_for_label }}"
+                     class="form-input"
+                     placeholder="{{ field.label }}" required>
+              {% if field.help_text %}
+                <p class="text-xs text-slate-500 mt-1">{{ field.help_text|safe }}</p>
+              {% endif %}
+              {% for error in field.errors %}
+                <p class="text-xs text-red-500 mt-1">{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endfor %}
+
+          {% if form.non_field_errors %}
+              {% for error in form.non_field_errors %}
+                  <p class="text-sm text-red-500 mt-2">{{ error }}</p>
+              {% endfor %}
+          {% endif %}
+
+          <div class="mt-6">
+            <button class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary" type="submit">
+              {% trans "Sign Up" %}
+            </button>
+          </div>
+        </form>
+        
+        <div class="text-sm text-center">
+            <a class="font-medium text-primary hover:text-primary/80" href="{% url 'professionals:login' %}">
+                {% trans "Already have an account? Log in" %}
+            </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

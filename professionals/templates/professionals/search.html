@@ -1,0 +1,187 @@
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+{% trans "Professional" as PROFESSIONAL_WORD %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+<head>
+  <meta charset="utf-8"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link as="style" href="https://fonts.googleapis.com/css2?display=swap&family=Manrope:wght@400;500;700;800" onload="this.rel='stylesheet'" rel="stylesheet"/>
+  <title>{% trans "Conecta Wellness - Find Your Professional" %}</title>
+  <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64,">
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: { extend: {
+        colors: { primary: "#1dc962", "background-light": "#f6f8f7", "background-dark": "#112117" },
+        fontFamily: { display: ["Manrope"] },
+        borderRadius: { DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px" },
+      } }
+    };
+  </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-800 dark:text-slate-200">
+<div class="flex flex-col min-h-screen">
+
+  <header class="sticky top-0 z-20 w-full bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm border-b border-primary/20 dark:border-primary/30">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <div class="flex items-center gap-8">
+          <a href="{% url 'professionals:search' %}" class="flex items-center gap-3 text-slate-900 dark:text-slate-50">
+            <svg class="h-8 w-8 text-primary" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M39.5563 34.1455V13.8546C39.5563 15.708 36.8773 17.3437 32.7927 18.3189C30.2914 18.916 27.263 19.2655 24 19.2655C20.737 19.2655 17.7086 18.916 15.2073 18.3189C11.1227 17.3437 8.44365 15.708 8.44365 13.8546V34.1455C8.44365 35.9988 11.1227 37.6346 15.2073 38.6098C17.7086 39.2069 20.737 39.5564 24 39.5564C27.263 39.5564 30.2914 39.2069 32.7927 38.6098C36.8773 37.6346 39.5563 35.9988 39.5563 34.1455Z" fill="currentColor"></path></svg>
+            <h1 class="text-xl font-bold">{% trans "Conecta Wellness" %}</h1>
+          </a>
+          <nav class="hidden md:flex items-center gap-6">
+            <a class="text-sm font-medium hover:text-primary transition-colors" href="#">{% trans "Home" %}</a>
+            <a class="text-sm font-medium hover:text-primary transition-colors" href="#">{% trans "Explore" %}</a>
+            <a class="text-sm font-medium hover:text-primary transition-colors" href="#">{% trans "For Professionals" %}</a>
+          </nav>
+        </div>
+        <div class="flex items-center gap-4">
+          {% include "professionals/includes/lang_switcher.html" %}
+          <button class="px-4 py-2 text-sm font-bold text-slate-900 bg-primary rounded-lg hover:opacity-90 transition-opacity">
+            {% trans "Book a Session" %}
+          </button>
+          <button>
+            <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBjNx_WNH3o_R5y4AkFqxtiiAc7AOWlK21OcXdwwAwuNV3V85kjbzyNsZExZ2JFod7kA_vf9GCBiQhubSU3RAefv-VsYoDOx1MSd3uracbhiSND2J9-4mYdetaihg3JLXBsHXkok0W-MYXRfqB2JDESxsBA5iLYC7Tpx5DW6aKkiHZrdRN9sntbeVmrZ5CJpKZkjHrSq06-Ycspl87JAURDWo9xqGysw8DDPXUSPSMgpZCRDt_f1nqv29_r3MAPys5TdZYvII9882c");'></div>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div class="max-w-4xl mx-auto">
+
+      <div class="text-center mb-10">
+        <h2 class="text-4xl md:text-5xl font-bold text-slate-900 dark:text-slate-50 tracking-tight">
+          {% trans "Find Your Wellness Professional" %}
+        </h2>
+        <p class="mt-4 text-lg text-slate-600 dark:text-slate-400">
+          {% trans "Search for professionals, services, or specialties in your area." %}
+        </p>
+      </div>
+
+      <form method="get" action="{% url 'professionals:search_results' %}">
+        <div class="relative mb-8">
+          <input
+            type="search" name="q"
+            placeholder="{% trans 'Search for professionals, services, or specialties' %}"
+            class="w-full h-14 pl-12 pr-4 text-base bg-white dark:bg-background-dark border border-slate-300 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent placeholder-slate-400 dark:placeholder-slate-500"
+          />
+          <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 dark:text-slate-500">
+            <svg fill="currentColor" height="24" width="24" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"></path></svg>
+          </div>
+        </div>
+      </form>
+      
+      <div class="flex flex-wrap items-center justify-center gap-4 mb-12">
+        
+        <div x-data="{ open: false }" class="relative">
+          <button @click="open = !open" class="flex items-center gap-2 px-4 py-2 bg-primary/10 dark:bg-primary/20 rounded-lg hover:bg-primary/20 dark:hover:bg-primary/30 transition-colors">
+            <svg fill="currentColor" height="20" viewBox="0 0 256 256" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M240,136v40a16,16,0,0,1-16,16H32a16,16,0,0,1-16-16V80A16,16,0,0,1,32,64h97.58l-21.3-21.29a8,8,0,0,1,11.32-11.32L144,55.06l24.39-24.4a8,8,0,0,1,11.32,11.32L158.42,64H192v24a8,8,0,0,1-16,0V72H40v96H224v-32a8,8,0,0,1,16,0Z"></path></svg>
+            <span>{% trans "Modality" %}</span>
+          </button>
+          <div x-show="open" @click.away="open = false" class="absolute z-10 mt-2 w-48 bg-white dark:bg-slate-800 rounded-md shadow-lg py-1">
+            <a href="{% url 'professionals:search_results' %}?modality=online" class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700">{% trans "Online" %}</a>
+            <a href="{% url 'professionals:search_results' %}?modality=in_person" class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700">{% trans "In-Person" %}</a>
+          </div>
+        </div>
+
+        <div x-data="{ open: false }" class="relative">
+            <button @click="open = !open" class="flex items-center gap-2 px-4 py-2 bg-primary/10 dark:bg-primary/20 rounded-lg hover:bg-primary/20 dark:hover:bg-primary/30 transition-colors">
+            <svg fill="currentColor" height="20" viewBox="0 0 256 256" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M117.25,157.92a60,60,0,1,0-66.5,0A95.83,95.83,0,0,0,3.53,195.63a8,8,0,1,0,13.4,8.74,80,80,0,0,1,134.14,0,8,8,0,0,0,13.4-8.74A95.83,95.83,0,0,0,117.25,157.92ZM40,108a44,44,0,1,1,44,44A44.05,44.05,0,0,1,40,108Zm210.14,98.7a8,8,0,0,1-11.07-2.33A79.83,79.83,0,0,0,172,168a8,8,0,0,1,0-16,44,44,0,1,0-16.34-84.87,8,8,0,1,1-5.94-14.85,60,60,0,0,1,55.53,105.64,95.83,95.83,0,0,1,47.22,37.71A8,8,0,0,1,250.14,206.7Z"></path></svg>
+            <span>{% trans "Session Type" %}</span>
+          </button>
+          <div x-show="open" @click.away="open = false" class="absolute z-10 mt-2 w-48 bg-white dark:bg-slate-800 rounded-md shadow-lg py-1">
+            <a href="{% url 'professionals:search_results' %}?service_type=individual" class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700">{% trans "Individual" %}</a>
+            <a href="{% url 'professionals:search_results' %}?service_type=couples" class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700">{% trans "Couples" %}</a>
+            <a href="{% url 'professionals:search_results' %}?service_type=group" class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700">{% trans "Group" %}</a>
+          </div>
+        </div>
+
+        <div x-data="{ open: false }" class="relative">
+          <button @click="open = !open" class="flex items-center gap-2 px-4 py-2 bg-primary/10 dark:bg-primary/20 rounded-lg hover:bg-primary/20 dark:hover:bg-primary/30 transition-colors">
+            <svg fill="currentColor" height="20" viewBox="0 0 256 256" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M239.2,97.29a16,16,0,0,0-13.81-11L166,81.17,142.72,25.81h0a15.95,15.95,0,0,0-29.44,0L90.07,81.17,30.61,86.32a16,16,0,0,0-9.11,28.06L66.61,153.8,53.09,212.34a16,16,0,0,0,23.84,17.34l51-31,51.11,31a16,16,0,0,0,23.84-17.34l-13.51-58.6,45.1-39.36A16,16,0,0,0,239.2,97.29Zm-15.22,5-45.1,39.36a16,16,0,0,0-5.08,15.71L187.35,216v0l-51.07-31a15.9,15.9,0,0,0-16.54,0l-51,31h0L82.2,157.4a16,16,0,0,0-5.08-15.71L32,102.35a.37.37,0,0,1,0-.09l59.44-5.14a16,16,0,0,0,13.35-9.75L128,32.08l23.2,55.29a16,16,0,0,0,13.35,9.75L224,102.26S224,102.32,224,102.33Z"></path></svg>
+            <span>{% trans "User Rating" %}</span>
+          </button>
+          <div x-show="open" @click.away="open = false" class="absolute z-10 mt-2 w-48 bg-white dark:bg-slate-800 rounded-md shadow-lg py-1">
+            <a href="{% url 'professionals:search_results' %}?min_rating=4.5" class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700">4.5+ {% trans "stars" %}</a>
+            <a href="{% url 'professionals:search_results' %}?min_rating=4.0" class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700">4.0+ {% trans "stars" %}</a>
+            <a href="{% url 'professionals:search_results' %}?min_rating=3.5" class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700">3.5+ {% trans "stars" %}</a>
+            <a href="{% url 'professionals:search_results' %}?min_rating=3.0" class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700">3.0+ {% trans "stars" %}</a>
+          </div>
+        </div>
+      </div>
+      <section class="mb-12">
+        <h3 class="text-2xl font-bold mb-4 text-slate-900 dark:text-slate-50">{% trans "Featured Professionals" %}</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          <div class="bg-white dark:bg-slate-800/50 rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300">
+            <div class="w-full bg-center bg-no-repeat aspect-square bg-cover" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAfEW2UzVH3FewLoNmJTbgV0cacyyyDfaJVzMOgzO8WzfQQZHvD4PmOiNnDoqea6V7tZuF0AgON8iNgeEV9unkr23D8obublpHWgtOfpNdMX-geltsFVtdo1bcMYV9HZ4iLSw0do_6mGWTgdfwWZ_poduzlqo3I7QKId_zgerU69EU6piqVIy5-ED0ILvpDAd4fZA3zUKVj-XJw3tbQz087JgOb9VV9uXAGPTV_fqTZ0lm95S6E1e76H_uM_gcxMq5r5V6uaNxABb8");'></div>
+            <div class="p-4">
+              <p class="text-lg font-semibold text-slate-900 dark:text-slate-50">{% trans "Yoga Instructor" %}</p>
+              <p class="text-sm text-slate-500 dark:text-slate-400">{% trans "Santiago" %}</p>
+            </div>
+          </div>
+          <div class="bg-white dark:bg-slate-800/50 rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300">
+            <div class="w-full bg-center bg-no-repeat aspect-square bg-cover" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBWaiPnc61QiYNK6bsintc9SsOAxglN0-QEVtfIJ0DCqIdPOtreD3Y5TgMjwprSvEQtu_Q_y2APGyAzNKmp0aM40acUAf86jrLI7RmacfV5yUF-VaoWVscrFmrKh3F6kwnO4Tb4i8uj-dmYy_GuiQzyzKERZrKepGRM1z-M277iDOr2hApF2SURHY6tMp7VowWsdypTzj8MhPxeMkROjHvWRcmzTo7hFjHCQ4g6mn1EO5DNRqq5t2SA7_p4RFMdocOFXkee0JBCYzc");'></div>
+            <div class="p-4">
+              <p class="text-lg font-semibold text-slate-900 dark:text-slate-50">{% trans "Personal Trainer" %}</p>
+              <p class="text-sm text-slate-500 dark:text-slate-400">{% trans "Santiago" %}</p>
+            </div>
+          </div>
+          <div class="bg-white dark:bg-slate-800/50 rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300">
+            <div class="w-full bg-center bg-no-repeat aspect-square bg-cover" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD4MJW4RrtiHtXFvEAEjnwB6gOttTuXTrseOWOIKNW1hcKME0X-JSdx_EzJCb9JQo3gYYN34_mHxqpOUUPQS-rOoBQN_JN2iQPpuXT_BhRAp5HXYG_qHfN2hWfXPPVsNBDcksLD6Fiu-X_2nj38G9iXl2l0CBnSZpXskffipqjr5FrBqbms5SpyDhEaeKK-foIxQF4FWp3VM_gznXHGdvTpFIgYEmAlUD3I24r2rI-L8rlR-iOD87HAeZFWBLLszelLQQ7D18I4WB0");'></div>
+            <div class="p-4">
+              <p class="text-lg font-semibold text-slate-900 dark:text-slate-50">{% trans "Nutritionist" %}</p>
+              <p class="text-sm text-slate-500 dark:text-slate-400">{% trans "Santiago" %}</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <section>
+        <h3 class="text-2xl font-bold mb-4 text-slate-900 dark:text-slate-50">{% trans "Browse by Category" %}</h3>
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-6 gap-4">
+          
+          <a href="{% url 'professionals:search_results' %}?q=Yoga" class="group flex flex-col items-center text-center gap-2">
+            <div class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl group-hover:scale-105 transition-transform duration-300" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAT2dADPAnY4dsSSWk9Qk12DfXv7co19w3QHeUmuTrJ6cR25NFGaPMug6eu1fFNtc2j4okkJ3JJHg5mNXWQuzpUzML0vB7z8z2w3wp2ZUWYIIQ8YyODIh1NqL0nHskVKad6rU9VWq8GrT6fkpKiCicPwFaJZMqT4HGrZI38urPw62GbZInasanEhoFgNLPvqcHRscSMUE0fWhaVnFVymL-TYQ79_qjWZchEaZRBivYYea0WVSjqGNurambhe4ihpwbUa0QOI1T6PkU");'></div>
+            <p class="text-base font-medium text-slate-800 dark:text-slate-200">{% trans "Yoga" %}</p>
+          </a>
+          
+          <a href="{% url 'professionals:search_results' %}?q=Fitness" class="group flex flex-col items-center text-center gap-2">
+            <div class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl group-hover:scale-105 transition-transform duration-300" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA2omQ6Lv5ml05Nwcu8nWggjNE_x43IHoVpKkGiu6439zhcTqzPqweBnD1wKe8NbyzT8BeBkfy0cVQDhvgWYnzbqnxBuOaAPqGHgIMBUM71qDgrnFqxy4e_NOD9SUpFb6tuu1j3fh81WTaPQVz-1uv0CbucEkzc00xyrP7lqIpnd2puJUlThF7KlambXOBO59JAXO0UJXOPms3btqycGD9Fj_6IEZnjJrNnyoPBavVSCmpN2dTUXvpL0xPb9rQiM9dDNOEdGycp2Qg");'></div>
+            <p class="text-base font-medium text-slate-800 dark:text-slate-200">{% trans "Fitness" %}</p>
+          </a>
+          
+          <a href="{% url 'professionals:search_results' %}?q=Nutrition" class="group flex flex-col items-center text-center gap-2">
+            <div class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl group-hover:scale-105 transition-transform duration-300" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCC-5MLd-FQuNikxDVaso8b_1grenFeCgrTBJWnwKScOvjLb2LG0UfzVpD0xRoqnSoLHFej_6daZqt1DbLwhhrS_85t0TC7lIawx-G1IBpeNbsY47xGAulSGMv_1Dm9RfdFBP3sROFyo6ZyZdgKpW3fg_D1zEJeXUFi5ab8B1VKBMg6kkO-PLjR6aDRQDRWo9JBlFqEVS8dxJNItafGWTOheqiTImULS9rocc9MtZG4I2CBR5czMST5ipCcCbNg0tva8mfFQttHH1E");'></div>
+            <p class="text-base font-medium text-slate-800 dark:text-slate-200">{% trans "Nutrition" %}</p>
+          </a>
+          
+          <a href="{% url 'professionals:search_results' %}?q=Mental+Health" class="group flex flex-col items-center text-center gap-2">
+            <div class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl group-hover:scale-105 transition-transform duration-300" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD11FuMCDZ5wg30dbodih3-Gxt-p4pNyfaNmPKQIUQmXsGqMWxjOyrp8janL6AOexaL8oLMVPFPnAZUeUYXq1DSHfHpjPROJjoJyBTHjV7CY7FGhfVixeIkD4d3Y5qKesXt65uAmYTy9MWwOw3wMRoGtJw-rwwNycZls_uU2nAl3_YIA2hORep7o1WuMvMuOBuI_5sgQi_RwLWL9PlN_WtbDvJblRzY2KfEG5MVjJkXTtbymn4eU3bz7TPCH7DFz8tw9zsdIZGPckY");'></div>
+            <p class="text-base font-medium text-slate-800 dark:text-slate-200">{% trans "Mental Health" %}</p>
+          </a>
+          
+          <a href="{% url 'professionals:search_results' %}?q=Holistic+Therapies" class="group flex flex-col items-center text-center gap-2">
+            <div class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl group-hover:scale-105 transition-transform duration-300" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDfq7lG9AXJieGNaQTrJce5ukAi_amjslL4XUZV6iI3Gi-_YhkLdF02kATlNexaJNvmJG2vYRJ9FNyoLMtB_azmyrc21-H7HCcfnaIfQnJLalesj7Umx5cSjeyrH-7ykbZ48W0zVI8MBahxSrt_ohKHrWIcwbq5jxJcU1acXOJcr1lyAb-SvXHd0bM-dwNppkaDs7NVSg3CRbLJZSrdzvtdHi8lQMIioKBN8w37oHwm4Kq3LaPcQfeGIxrpSHZfHL2LZw7Bea2C0XA");'></div>
+            <p class="text-base font-medium text-slate-800 dark:text-slate-200">{% trans "Holistic Therapies" %}</p>
+          </a>
+          
+          <a href="{% url 'professionals:search_results' %}?q=Other" class="group flex flex-col items-center text-center gap-2">
+            <div class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl group-hover:scale-105 transition-transform duration-300" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAMXRDl_s1U-RObiVgkUcn7koKcNNOoZcv2iP4nYxv-TqwlUd9eTEcpKYHgcnHccz5ORiPt4O9flweDb8e7uNdUxm80_xaLQrjexFfX1BqFL-9-oZuZrHquHh8Cu-jSWwvXOFKAAdOGI81JV5cpVHyz6p9C19ixUtFleTqrIunxsXUQ3oG_LSS5Krxw23JWlauoWO_rwl3IOMwFzchMFihCBjZL0Lk42deWB923aq0_x8Y1Bjmb4mUGaXkTr0cinEa1QpJeN1ieFgI");'></div>
+            <p class="text-base font-medium text-slate-800 dark:text-slate-200">{% trans "Other" %}</p>
+          </a>
+
+        </div>
+      </section>
+
+    </div>
+  </main>
+</div>
+</body>
+</html>

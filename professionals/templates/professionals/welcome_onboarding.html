@@ -1,0 +1,132 @@
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+<head>
+  <meta charset="utf-8"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin/>
+  <link as="style" href="https://fonts.googleapis.com/css2?display=swap&family=Manrope:wght@400;500;700;800" onload="this.rel='stylesheet'" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script>
+    tailwind.config = { darkMode: "class", theme: { extend: {
+      colors: { primary: "#1dc962", "background-light": "#f6f8f7", "background-dark": "#112117" },
+      fontFamily: { display: ["Manrope"] },
+      borderRadius: { DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px" },
+    } } };
+  </script>
+  <title>{% trans "Conecta Wellness" %}</title>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-gray-200">
+{% url 'professionals:search' as search_url %}
+{% url 'professionals:login' as login_url %}
+{% url 'professionals:signup' as signup_url %}
+<div class="relative flex min-h-screen w-full flex-col">
+  <header class="sticky top-0 z-50 w-full border-b border-primary/20 dark:border-primary/30 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm">
+    <div class="container mx-auto flex items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
+      <a class="flex items-center gap-2" href="{{ search_url|default:'#' }}">
+        <svg class="h-8 w-8 text-primary" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M39.5563 34.1455V13.8546C39.5563 15.708 36.8773 17.3437 32.7927 18.3189C30.2914 18.916 27.263 19.2655 24 19.2655C20.737 19.2655 17.7086 18.916 15.2073 18.3189C11.1227 17.3437 8.44365 15.708 8.44365 13.8546V34.1455C8.44365 35.9988 11.1227 37.6346 15.2073 38.6098C17.7086 39.2069 20.737 39.5564 24 39.5564C27.263 39.5564 30.2914 39.2069 32.7927 38.6098C36.8773 37.6346 39.5563 35.9988 39.5563 34.1455Z" fill="currentColor"></path></svg>
+        <h2 class="text-xl font-bold tracking-tight text-gray-900 dark:text-white">{% trans "Conecta Wellness" %}</h2>
+      </a>
+
+      <nav class="hidden items-center gap-8 lg:flex">
+        <a class="text-sm font-medium hover:text-primary dark:hover:text-primary" href="#">{% trans "Home" %}</a>
+        <a class="text-sm font-medium hover:text-primary dark:hover:text-primary" href="#">{% trans "About" %}</a>
+        <a class="text-sm font-medium hover:text-primary dark:hover:text-primary" href="#">{% trans "Services" %}</a>
+        <a class="text-sm font-medium hover:text-primary dark:hover:text-primary" href="#">{% trans "Contact" %}</a>
+      </nav>
+
+      <div class="flex items-center gap-4">
+        {% include "professionals/includes/lang_switcher.html" %}
+        {% if login_url %}
+          <a class="rounded-lg bg-primary/20 px-4 py-2 text-sm font-bold text-primary transition hover:bg-primary/30" href="{{ login_url }}">{% trans "Log In" %}</a>
+        {% else %}
+          <a class="rounded-lg bg-primary/20 px-4 py-2 text-sm font-bold text-primary transition hover:bg-primary/30" href="#">{% trans "Log In" %}</a>
+        {% endif %}
+        <a class="rounded-lg bg-primary px-4 py-2 text-sm font-bold text-white shadow-sm transition hover:opacity-90 dark:text-background-dark" href="{{ signup_url|default:'#' }}">
+          {% trans "Sign Up" %}
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-1">
+    <section class="relative">
+      <div class="absolute inset-0 bg-cover bg-center" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBHS9qAlUZPFNfN47XhxT7u4keVy7irnAHM3CFTEYKFVFX8Q1aydInGXq0W1pyshrkjfLw3wJ2c5Gr9_H2y1XQ0md0t7_do2pxbI8FSrv8IEON5RCp3o25cfqpUysHz72IAkfZpXPkdDDhtNWbRozniM73JeUlkHd-fG53EmhZXZM-CMtZ09HHukO7tY57Lp4BZ2bBjO2F_tqu6AuoGHPVGadiDGsqxgHfpyCLxXG_6-K6p-E4qVB4w-rYgWnvEhK4hFPanz2HAmV4");'></div>
+      <div class="absolute inset-0 bg-black/50"></div>
+      <div class="relative mx-auto max-w-7xl px-4 py-32 text-center sm:px-6 sm:py-48 lg:px-8">
+        <h1 class="text-4xl font-extrabold tracking-tight text-white sm:text-5xl md:text-6xl">{% trans "Find Your Path to Wellness" %}</h1>
+        <p class="mx-auto mt-6 max-w-3xl text-lg text-gray-200">
+          {% trans "Connect with top health, fitness, and holistic wellness professionals in Chile and Latin America. Start your journey to a healthier you today." %}
+        </p>
+        <div class="mt-10 flex flex-wrap justify-center gap-4">
+          <a class="rounded-lg bg-primary px-6 py-3 text-base font-bold text-white shadow-lg transition hover:opacity-90 dark:text-background-dark" href="{{ search_url|default:'#' }}">{% trans "Search Professionals" %}</a>
+          <a class="rounded-lg bg-white/10 px-6 py-3 text-base font-bold text-white backdrop-blur-sm transition hover:bg-white/20" href="#">{% trans "Learn More" %}</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-16 sm:py-24">
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-3xl text-center">
+          <h2 class="text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-4xl">{% trans "Why Choose Conecta Wellness?" %}</h2>
+          <p class="mt-4 text-lg text-gray-600 dark:text-gray-400">
+            {% trans "We connect you with the best professionals, offering personalized wellness solutions tailored to your needs." %}
+          </p>
+        </div>
+        <div class="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          <div class="flex flex-col gap-4 rounded-xl border border-primary/20 bg-background-light p-6 dark:border-primary/30 dark:bg-background-dark">
+            <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary">
+              <span class="material-symbols-outlined"> verified_user </span>
+            </div>
+            <h3 class="text-lg font-bold text-gray-900 dark:text-white">{% trans "Verified Professionals" %}</h3>
+            <p class="text-gray-600 dark:text-gray-400">{% trans "All professionals are thoroughly vetted to ensure quality and reliability." %}</p>
+          </div>
+
+          <div class="flex flex-col gap-4 rounded-xl border border-primary/20 bg-background-light p-6 dark:border-primary/30 dark:bg-background-dark">
+            <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary">
+              <span class="material-symbols-outlined"> diversity_3 </span>
+            </div>
+            <h3 class="text-lg font-bold text-gray-900 dark:text-white">{% trans "Wide Range of Services" %}</h3>
+            <p class="text-gray-600 dark:text-gray-400">{% trans "From fitness training to holistic therapies, find the services that suit you." %}</p>
+          </div>
+
+          <div class="flex flex-col gap-4 rounded-xl border border-primary/20 bg-background-light p-6 dark:border-primary/30 dark:bg-background-dark">
+            <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary">
+              <span class="material-symbols-outlined"> event_available </span>
+            </div>
+            <h3 class="text-lg font-bold text-gray-900 dark:text-white">{% trans "Flexible Scheduling" %}</h3>
+            <p class="text-gray-600 dark:text-gray-400">{% trans "Book sessions at your convenience with flexible scheduling options." %}</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-background-light py-16 dark:bg-background-dark sm:py-24">
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-3xl text-center">
+          <h2 class="text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-4xl">{% trans "Explore Our Services" %}</h2>
+          <p class="mt-4 text-lg text-gray-600 dark:text-gray-400">
+            {% trans "Discover a variety of wellness services designed to enhance your physical and mental well-being." %}
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-background-light dark:bg-background-dark">
+    <div class="container mx-auto px-4 py-12 sm:px-6 lg:px-8">
+      <div class="flex flex-col items-center justify-between gap-8 md:flex-row">
+        <nav class="flex flex-wrap justify-center gap-x-6 gap-y-2 md:order-2">
+          <a class="text-sm text-gray-500 hover:text-primary dark:text-gray-400 dark:hover:text-primary" href="#">{% trans "About Us" %}</a>
+          <a class="text-sm text-gray-500 hover:text-primary dark:text-gray-400 dark:hover:text-primary" href="#">{% trans "Contact" %}</a>
+          <a class="text-sm text-gray-500 hover:text-primary dark:text-gray-400 dark:hover:text-primary" href="#">{% trans "Privacy Policy" %}</a>
+          <a class="text-sm text-gray-500 hover:text-primary dark:text-gray-400 dark:hover:text-primary" href="#">{% trans "Terms of Service" %}</a>
+        </nav>
+        <p class="text-center text-sm text-gray-500 dark:text-gray-400 md:order-1">© 2024 Conecta Wellness. {% trans "All rights reserved." %}</p>
+      </div>
+    </div>
+  </footer>
+</div>
+</body>
+</html>

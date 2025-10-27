@@ -25,7 +25,15 @@ SECRET_KEY = 'django-insecure-t8s^x3(w2k!0l*tbvnguqkifg(3cazr)ydv27y+q9l#!vbnp8_
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [
+    'cw.cloud8.cl',
+    'cloud8.cl',
+    '34.42.211.110',
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://cw.cloud8.cl',
+]
 
 
 # Application definition

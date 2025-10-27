@@ -15,7 +15,7 @@ jobs:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v2
     
-    - name: Login to Docker Hub (opcional)
+    - name: Login to Docker Hub
       uses: docker/login-action@v2
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
@@ -25,7 +25,7 @@ jobs:
       uses: docker/build-push-action@v4
       with:
         push: true
-        tags: jhenriquezf/core:latest
+        tags: jhenriquezf/django-app:latest
     
     - name: Deploy to GCP VM
       uses: appleboy/ssh-action@master
@@ -34,11 +34,12 @@ jobs:
         username: ${{ secrets.GCP_USERNAME }}
         key: ${{ secrets.GCP_SSH_KEY }}
         script: |
-          docker pull tu-usuario/tu-proyecto:latest
+          docker pull jhenriquezf/django-app:latest
           docker stop django-app || true
           docker rm django-app || true
           docker run -d \
             --name django-app \
             -p 80:8000 \
-            -v /home/django/db.sqlite3:/app/db.sqlite3 \
-            jhenriquezf/core:latest
+            --restart unless-stopped \
+            -v /home/joaquin.cifuentes/db.sqlite3:/app/db.sqlite3 \
+            jhenriquezf/django-app:latest

@@ -42,4 +42,11 @@ jobs:
             -p 80:8000 \
             --restart unless-stopped \
             -v /home/joaquin.cifuentes/db.sqlite3:/app/db.sqlite3 \
+            -v /home/joaquin.cifuentes/media:/app/media \
             jhenriquezf/django-app:latest
+          
+          # Esperar a que el contenedor inicie
+          sleep 5
+          
+          # Verificar logs
+          docker logs django-app --tail 50

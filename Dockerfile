@@ -3,21 +3,20 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-# Dependencias del sistema
-RUN apt-get update && apt-get install -y \
-    gcc \
-    && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y gcc && rm -rf /var/lib/apt/lists/*
 
-# Copiar requirements
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copiar proyecto
 COPY . .
 
-# Recolectar archivos estáticos
-RUN python manage.py collectstatic --noinput
+# Crear directorios necesarios
+RUN mkdir -p /app/static /app/staticfiles /app/media
+
+# Dar permisos al entrypoint
+RUN chmod +x entrypoint.sh
 
 EXPOSE 8000
 
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "core.wsgi:application"]
+# Usar el entrypoint
+ENTRYPOINT ["./entrypoint.sh"]

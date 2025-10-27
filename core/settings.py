@@ -143,7 +143,11 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # STATIC FILES
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATICFILES_DIRS = [BASE_DIR / 'static']
+import os
+if os.path.exists(BASE_DIR / 'static'):
+    STATICFILES_DIRS = [BASE_DIR / 'static']
+else:
+    STATICFILES_DIRS = []
 
 LOGIN_REDIRECT_URL = "/"      # después de login
 LOGOUT_REDIRECT_URL = "/"     # después de logout

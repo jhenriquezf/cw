@@ -128,8 +128,6 @@ LOCALE_PATHS = [BASE_DIR / "locale"]
 
 LANGUAGE_COOKIE_NAME = "django_language"
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
 

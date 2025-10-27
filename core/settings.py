@@ -29,12 +29,22 @@ ALLOWED_HOSTS = [
     'cw.cloud8.cl',
     'cloud8.cl',
     '34.42.211.110',
+    'localhost',
 ]
 
+# Configuración para Cloudflare
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+USE_X_FORWARDED_HOST = True
+
+# Cookies seguras
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+
+# Orígenes confiables para CSRF
 CSRF_TRUSTED_ORIGINS = [
     'https://cw.cloud8.cl',
+    'https://cloud8.cl',
 ]
-
 
 # Application definition
 

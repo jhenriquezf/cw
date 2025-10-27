@@ -1,9 +1,11 @@
-# .github/workflows/deploy.yml
-name: Deploy to GCP
+name: Deploy to GCP with SSL
 
 on:
   push:
     branches: [ main ]
+
+env:
+  DOCKER_IMAGE: jhenriquezf/cw-app:latest
 
 jobs:
   deploy:
@@ -24,29 +26,70 @@ jobs:
     - name: Build and push
       uses: docker/build-push-action@v4
       with:
+        context: .
         push: true
-        tags: jhenriquezf/django-app:latest
+        tags: ${{ env.DOCKER_IMAGE }}
+        cache-from: type=registry,ref=${{ env.DOCKER_IMAGE }}-cache
+        cache-to: type=registry,ref=${{ env.DOCKER_IMAGE }}-cache,mode=max
     
-    - name: Deploy to GCP VM
+    - name: Deploy to Server
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.GCP_HOST }}
         username: ${{ secrets.GCP_USERNAME }}
         key: ${{ secrets.GCP_SSH_KEY }}
         script: |
-          docker pull jhenriquezf/django-app:latest
-          docker stop django-app || true
-          docker rm django-app || true
+          # Pull nueva imagen
+          docker pull ${{ env.DOCKER_IMAGE }}
+          
+          # Detener contenedor anterior
+          docker stop django-app 2>/dev/null || true
+          docker rm django-app 2>/dev/null || true
+          
+          # Ejecutar nuevo contenedor (solo en puerto 8000, no 80)
           docker run -d \
             --name django-app \
-            -p 80:8000 \
+            -p 127.0.0.1:8000:8000 \
             --restart unless-stopped \
-            -v /home/joaquin.cifuentes/db.sqlite3:/app/db.sqlite3 \
-            -v /home/joaquin.cifuentes/media:/app/media \
-            jhenriquezf/django-app:latest
+            -v ~/db.sqlite3:/app/db.sqlite3 \
+            -v ~/media:/app/media \
+            ${{ env.DOCKER_IMAGE }}
           
-          # Esperar a que el contenedor inicie
+          # Esperar a que inicie
           sleep 5
           
-          # Verificar logs
-          docker logs django-app --tail 50
+          # Configurar Caddy si no existe
+          if [ ! -f /etc/caddy/Caddyfile ]; then
+            echo "Instalando Caddy..."
+            sudo apt install -y debian-keyring debian-archive-keyring apt-transport-https curl
+            curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg 2>/dev/null
+            curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | sudo tee /etc/apt/sources.list.d/caddy-stable.list
+            sudo apt update
+            sudo apt install -y caddy
+            
+            # Crear Caddyfile
+            echo "cw.cloud8.cl {
+              reverse_proxy localhost:8000
+              encode gzip
+            }" | sudo tee /etc/caddy/Caddyfile
+            
+            # Iniciar Caddy
+            sudo systemctl enable caddy
+            sudo systemctl restart caddy
+          else
+            # Reiniciar Caddy para aplicar cambios
+            sudo systemctl reload caddy 2>/dev/null || sudo systemctl restart caddy
+          fi
+          
+          # Verificar estado
+          echo "=== Estado del contenedor ==="
+          docker ps | grep django-app
+          
+          echo "=== Estado de Caddy ==="
+          sudo systemctl is-active caddy
+          
+          echo "=== Logs de Django ==="
+          docker logs django-app --tail 20
+          
+          # Limpiar imágenes antiguas
+          docker image prune -f
